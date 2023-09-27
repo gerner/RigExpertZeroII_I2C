@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -eu -o pipefail
+
+TEMPDIR=$(mktemp -d)
+mkdir ${TEMPDIR}/RigExpertZeroII_I2C
+cp -r examples keywords.txt RigExpertZeroII_I2C.cpp RigExpertZeroII_I2C.h ${TEMPDIR}/RigExpertZeroII_I2C/
+pushd ${TEMPDIR}
+zip RigExpertZeroII_I2C.zip RigExpertZeroII_I2C/*
+popd
+mv ${TEMPDIR}/RigExpertZeroII_I2C.zip ./
+#rm -r ${TEMPDIR}
