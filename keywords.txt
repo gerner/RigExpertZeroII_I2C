@@ -1,0 +1,30 @@
+#######################################
+# Syntax Coloring Map For RigExpertZeroII_I2C
+####################################### 
+# Class
+#######################################
+
+RigExpertZeroII_I2C	KEYWORD1
+
+#######################################
+# Methods and Functions 
+#######################################	
+
+startZeroII 		KEYWORD2
+getMajorVersion 	KEYWORD2
+getMinorVersion 	KEYWORD2
+getHwRevision 		KEYWORD2
+getSerialNumber 	KEYWORD2
+startMeasure		KEYWORD2
+getR			KEYWORD2
+getRp			KEYWORD2
+getX			KEYWORD2
+getXp			KEYWORD2
+getSWR			KEYWORD2
+getRL			KEYWORD2
+getZ			KEYWORD2
+getPhase		KEYWORD2
+getRho			KEYWORD2
+getZ0			KEYWORD2
+setZ0			KEYWORD2
+
