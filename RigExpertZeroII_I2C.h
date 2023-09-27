@@ -47,6 +47,8 @@ class RigExpertZeroII_I2C
         bool isInited(void); //WB9RAA added
         bool getFwVersion(void);
         bool startMeasure(int32_t fq);
+        bool beginMeasure(int32_t fq);
+        bool tryReadRX(void);
         unsigned char getMajorVersion(void);
         unsigned char getMinorVersion(void);
         unsigned char getHwRevision(void);

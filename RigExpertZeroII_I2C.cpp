@@ -106,6 +106,39 @@ unsigned long RigExpertZeroII_I2C::getSerialNumber(void)
 
 bool RigExpertZeroII_I2C::startMeasure(int32_t fq)
 {
+    if(!beginMeasure(fq)) {
+        return false;
+    }
+
+    delay(20); // Added delay like UART
+
+    bool wait = true;
+    bool result = false;
+    int failCounter = 0;
+    while(wait)
+    {
+        delayMicroseconds(700);
+        if(failCounter++ >= 1600)
+        {
+            wait = false;
+            m_Errors++;
+            return result;
+        }
+        if(tryReadRX())
+        {
+            result = true;
+            wait = false;
+        }
+    }
+    if(result)
+    {
+        computeAll(m_Z0,m_R,m_X);
+    }
+    return result;
+}
+
+bool RigExpertZeroII_I2C::beginMeasure(int32_t fq)
+{
     if(!m_isInited)
     {
         return false;
@@ -126,30 +159,20 @@ bool RigExpertZeroII_I2C::startMeasure(int32_t fq)
     Wire.beginTransmission(ZEROIIAddress);
     Wire.write(command,5);
     Wire.endTransmission();
-    delay(20); // Added delay like UART 
 
-    bool wait = true;
-    int failCounter = 0;
-    while(wait)
+    return true;
+}
+
+bool RigExpertZeroII_I2C::tryReadRX(void)
+{
+    if(getStatus() == ZEROII_I2C_STATUS_READY)
     {
-        delayMicroseconds(700);
-        if(failCounter++ >= 1600)
-        {
-            wait = false;
-            m_Errors++;
-            return result;
-        }
-        if(getStatus() == ZEROII_I2C_STATUS_READY)
-        {
-            result = readRX();
-            wait = false;
-        }
+        return readRX();
     }
-    if(result)
+    else
     {
-        computeAll(m_Z0,m_R,m_X);
-    }  
-    return result;
+        return false;
+    }
 }
 
 bool RigExpertZeroII_I2C::readRX(void)
